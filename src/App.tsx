@@ -1,23 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useReducer } from 'react';
 import './App.css';
+import { PokemonContext, PokemonView, PokemonSelector, pokemonReducer } from './Pokemon';
 
 const App: React.FC = () => {
+  const [state, dispatch] = useReducer(pokemonReducer, {
+    pokemonMap: {},
+    selectedPokemon: ''
+  })
+  const pokemonContext = { state, dispatch }
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <PokemonContext.Provider value={pokemonContext}>
+          <PokemonSelector />
+          <PokemonView />
+        </PokemonContext.Provider>
       </header>
     </div>
   );
