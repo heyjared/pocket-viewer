@@ -1,4 +1,4 @@
-import React, { Dispatch } from "react";
+import React, { Dispatch, useContext } from "react";
 import { PokemonAction, PokemonState } from './'
 
 const state: PokemonState = {

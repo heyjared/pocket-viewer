@@ -1,6 +1,8 @@
-import React, { useState, ChangeEventHandler, FormEventHandler, useContext } from 'react'
-import { PokemonContext, fetchPokemon, PokemonName } from './'
-import { PokemonActionType } from './types'
+import React, { useState, ChangeEventHandler, FormEventHandler, useContext, Dispatch } from 'react'
+import { PokemonName } from './'
+import { PokemonContext } from './context'
+import { PokemonState, PokemonAction, PokemonActionType } from './types'
+import { fetchPokemon } from './api'
 
 export const PokemonSelector: React.FC = () => {
     const [pokemonName, setPokemon] = useState<PokemonName>('')
@@ -9,13 +11,12 @@ export const PokemonSelector: React.FC = () => {
         setPokemon(event.target.value)
     }
 
-    const handleSubmit: FormEventHandler = event => {
+    const handleSubmit: FormEventHandler<HTMLFormElement> = event => {
         event.preventDefault()
         dispatch({ type: PokemonActionType.SetSelectedPokemon, selectedPokemon: pokemonName })
         fetchPokemon(pokemonName)
             .then(pokemon => dispatch({ type: PokemonActionType.FetchPokemonSuccess, pokemon }))
     }
-
     return (
         <form onSubmit={handleSubmit}>
             <input type="text" value={pokemonName} placeholder="pokemon name" onChange={handleChangeInput}></input>
